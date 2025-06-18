@@ -132,6 +132,10 @@ pub fn init() {
 pub fn print_app_info() {
     APP_MANAGER.exclusive_access().print_app_info();
 }
+/// get current app num
+pub fn get_current_app() -> usize {
+    APP_MANAGER.exclusive_access().get_current_app() - 1
+}
 
 /// run next app
 pub fn run_next_app() -> ! {
