@@ -1,0 +1,10 @@
+[[cmd]]
+fn = "ParamId526"
+[[cmd.para]]
+name = "ReturnCode"
+type = "byte"
+flag = "out"
+[[cmd.para]]
+name = "PcbDeGrNo"
+type = "PcbDeDrNo"
+flag = "out"

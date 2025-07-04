@@ -13,7 +13,7 @@ __alltraps:
     csrrw sp, sscratch, sp
     # now sp->kernel stack, sscratch->user stack
     # allocate a TrapContext on kernel stack
-    addi sp, sp, -34*8
+    addi sp, sp, -36*8
     # save general-purpose registers
     sd x1, 1*8(sp)
     # skip sp(x2), we will save it later
@@ -30,6 +30,8 @@ __alltraps:
     csrr t1, sepc
     sd t0, 32*8(sp)
     sd t1, 33*8(sp)
+    fsd fs0, 34*8(sp)  # save fs0
+    fsd fs1, 35*8(sp)  # save fs1
     # read user stack from sscratch and save it on the kernel stack
     csrr t2, sscratch
     sd t2, 2*8(sp)
@@ -54,8 +56,10 @@ __restore:
         LOAD_GP %n
         .set n, n+1
     .endr
+    fld fs0, 34*8(sp)  # restore fs0
+    fld fs1, 35*8(sp)  # restore fs1
     # release TrapContext on kernel stack
-    addi sp, sp, 34*8
+    addi sp, sp, 36*8
     # now sp->kernel stack, sscratch->user stack
     csrrw sp, sscratch, sp
     sret

@@ -58,6 +58,11 @@ fn clear_bss() {
 #[unsafe(no_mangle)]
 pub fn rust_main() -> ! {
     clear_bss();
+    use riscv::register::sstatus;
+    use riscv::register::mstatus::FS;
+    unsafe {
+        sstatus::set_fs(FS::Initial); // set initial floating-point state
+    }
     logging::init();
     info!("[kernel] Hello, world!");
     trap::init();

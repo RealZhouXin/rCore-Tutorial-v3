@@ -15,8 +15,9 @@
 mod context;
 
 use crate::syscall::syscall;
+use crate::task;
 use crate::task::{exit_current_and_run_next, suspend_current_and_run_next};
-use crate::timer::set_next_trigger;
+use crate::timer::{set_next_trigger};
 use core::arch::global_asm;
 use riscv::register::{
     mtvec::TrapMode,
@@ -46,6 +47,7 @@ pub fn enable_timer_interrupt() {
 #[unsafe(no_mangle)]
 /// handle an interrupt, exception, or system call from user space
 pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
+    task::u_mode_end();
     let scause = scause::read(); // get trap cause
     let stval = stval::read(); // get extra value
     match scause.cause() {
@@ -76,6 +78,7 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
             );
         }
     }
+    task::u_mode_start();
     cx
 }
 
