@@ -46,7 +46,7 @@ pub fn rust_main() -> ! {
         safe fn stext(); // begin addr of text segment
         safe fn etext(); // end addr of text segment
         safe fn srodata(); // start addr of Read-Only data segment
-        safe fn erodata(); // end addr of Read-Only data ssegment
+        safe fn erodata(); // end addr of Read-Only data segment
         safe fn sdata(); // start addr of data segment
         safe fn edata(); // end addr of data segment
         safe fn sbss(); // start addr of BSS segment
